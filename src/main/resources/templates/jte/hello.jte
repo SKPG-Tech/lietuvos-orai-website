@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoke Java Method</title>
-    <!-- Tailwind CSS for modern layout -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- HTMX for making the AJAX call to Java -->
+    <link href="/css/main.css" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@2.0.0"></script>
 </head>
 <body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
