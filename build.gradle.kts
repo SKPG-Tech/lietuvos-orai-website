@@ -1,8 +1,8 @@
 plugins {
     java
-    id("org.springframework.boot") version("4.0.6")
-    id("io.spring.dependency-management") version("1.1.7")
-    id("gg.jte.gradle") version("3.2.4")
+    id("org.springframework.boot") version "4.0.6"
+    id("io.spring.dependency-management") version "1.1.7"
+    id("gg.jte.gradle") version "3.2.4"
 }
 
 group = "dev.salvijus"
@@ -30,7 +30,6 @@ dependencies {
 }
 
 jte {
-    sourceDirectory = file("src/main/resources/templates/jte").toPath()
     generate()
     binaryStaticContent = true
 }

@@ -1,0 +1,15 @@
+/*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --color-blue-300: oklch(80.9% 0.105 251.813);
+  }
+}
+@layer utilities {
+  .static {
+    position: static;
+  }
+  .text-blue-300 {
+    color: var(--color-blue-300);
+  }
+}

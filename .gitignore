@@ -42,7 +42,8 @@ out/
 
 ### Logs ###
 *.log
+*.log.*.gz
 
 ### Node ###
 node_modules/
-bun.lock
+package-lock.json
