@@ -7,9 +7,18 @@ function setCookie(name, value) {
 function getGeoLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-            setCookie("user_lat", position.coords.latitude.toFixed(7));
-            setCookie("user_lon", position.coords.longitude.toFixed(7));
+            setCookie("user_lat", position.coords.latitude.toFixed(4));
+            setCookie("user_lon", position.coords.longitude.toFixed(4));
             location.reload();
-        }, (error) => {});
+        },
+        (error) => {
+            alert(`Nepavyko nustatyti dabartinės vietos: ${error.message}`)
+        });
     }
+}
+
+function setGeoLocation(latitude, longitude) {
+    setCookie("user_lat", latitude.toFixed(4));
+    setCookie("user_lon", longitude.toFixed(4));
+    location.reload();
 }

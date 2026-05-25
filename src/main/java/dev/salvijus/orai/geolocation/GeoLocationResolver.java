@@ -1,5 +1,6 @@
 package dev.salvijus.orai.geolocation;
 
+import dev.salvijus.orai.model.GeoLocation;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jspecify.annotations.NonNull;
@@ -10,24 +11,27 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GeoLocationResolver implements HandlerMethodArgumentResolver {
-    private static final GeoLocationController geoLocationController = new GeoLocationController();
+    private final GeoLocationService geoLocationService;
+
+    public GeoLocationResolver(GeoLocationService geoLocationService) {
+        this.geoLocationService = geoLocationService;
+    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(GeoLocate.class);
+        return parameter.hasParameterAnnotation(ResolveGeoLocation.class);
     }
 
     @Override
     public Object resolveArgument(@NonNull MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        final Map<String, String> cookies = Arrays.stream(request.getCookies())
+        Cookie[] cookieArray = request.getCookies();
+        final Map<String, String> cookies = Arrays.stream(cookieArray != null ? cookieArray : new Cookie[0])
                 .collect(Collectors.toMap(Cookie::getName, Cookie::getValue));
         String lat = cookies.get("user_lat");
         String lon = cookies.get("user_lon");
@@ -35,9 +39,14 @@ public class GeoLocationResolver implements HandlerMethodArgumentResolver {
             lat = request.getHeader("CF-IPLatitude");
             lon = request.getHeader("CF-IPLongitude");
         }
-        if (lat == null || lon == null)
-            return new GeoLocation("Vilnius", "Senamiestis", 54.6872f, 25.2797f);
-        else
-            return geoLocationController.getLocation(Float.parseFloat(lat), Float.parseFloat(lon));
+        GeoLocation geoLocation = null;
+        if (lat != null && lon != null) {
+            try {
+                geoLocation = geoLocationService.getLocation(Float.parseFloat(lat), Float.parseFloat(lon));
+            } catch (IllegalStateException _) { }
+        }
+        if (geoLocation == null)
+            geoLocation = new GeoLocation("Vilnius", "Senamiestis", 54.6872f, 25.2797f, true);
+        return geoLocation;
     }
 }

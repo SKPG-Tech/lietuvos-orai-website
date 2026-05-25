@@ -21,12 +21,11 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("gg.jte:jte-spring-boot-starter-4:3.2.4")
     implementation("io.github.wimdeblauwe:htmx-spring-boot:5.1.0")
     implementation("org.springframework.boot:spring-boot-starter-restclient")
-    compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    annotationProcessor("org.projectlombok:lombok")
 }
 
 jte {
