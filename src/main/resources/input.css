@@ -1,11 +1,67 @@
-@layer theme, base, components, utilities;
+@import "tailwindcss";
 
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@font-face {
+    font-family: 'Josefin Slab';
+    src: url('/font/JosefinSlab-VF.woff2') format('woff2-variations');
+    font-weight: 100 700;
+    font-style: normal;
+    font-display: swap;
+}
+@theme {
+    --font-josefin: "Josefin Slab", Georgia, Cambria, "Times New Roman", ui-serif, serif;
+    --font-montserrat: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --color-background: #232328;
+    --color-background-2: #32323D;
+    --color-text-1: #E8EBF5;
+    --color-text-2: #8F8F8F;
+}
+
+body {
+    font-family: var(--font-montserrat), sans-serif;
+    color: var(--color-text-1);
+    font-weight: 400;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-josefin), serif;
+    color: var(--color-text-1);
+    font-weight: 700;
+}
 
 .htmx-indicator {
-    display: none;
+    @apply hidden;
 }
 .htmx-request.htmx-indicator {
-    display: inline-block;
+    @apply inline-block;
+}
+
+.btn {
+    @apply outline-1 rounded-xl outline-text-2 bg-background-2 hover:bg-[#445]
+            size-12 p-2.5 inline-flex items-center justify-center no-underline transition-colors;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    @apply text-text-1;
+}
+
+[x-cloak] { @apply hidden!; }
+
+@layer base {
+    h1 {
+        @apply text-4xl font-bold mb-4;
+    }
+    h2 {
+        @apply text-3xl font-bold mb-3;
+    }
+    h3 {
+        @apply text-2xl font-bold mb-2;
+    }
+    ul {
+        @apply list-disc pl-5 mb-4;
+    }
+    ol {
+        @apply list-decimal pl-5 mb-4;
+    }
+    a {
+        @apply text-blue-600 hover:underline;
+    }
 }

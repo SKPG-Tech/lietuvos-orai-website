@@ -27,6 +27,7 @@ public class RestWebController {
     @GetMapping(value = "/search", params = "location")
     public String search(@ResolveGeoLocation GeoLocation geoLocation, @RequestParam String location) {
         Map<String, Object> model = new HashMap<>();
+        model.put("geoLocation", geoLocation);
         model.put("searchResults", geoLocationService.searchFor(location).results());
         StringOutput output = new StringOutput();
         templateEngine.render("tag/searchResults.jte",model, output);

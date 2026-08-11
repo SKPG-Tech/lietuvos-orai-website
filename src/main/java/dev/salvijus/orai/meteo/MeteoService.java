@@ -1,15 +1,11 @@
 package dev.salvijus.orai.meteo;
 
 import dev.salvijus.orai.api.OpenMeteoApi;
-import dev.salvijus.orai.api.OpenMeteoResponse;
 import dev.salvijus.orai.model.CurrentWeather;
-import dev.salvijus.orai.model.Forecast;
 import dev.salvijus.orai.model.GeoLocation;
+import dev.salvijus.orai.model.WeatherForecast;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class MeteoService {
@@ -20,16 +16,19 @@ public class MeteoService {
     }
 
     @Cacheable(value = "forecastCache")
-    public Forecast getForecast(GeoLocation geoLocation) {
-        final OpenMeteoResponse.Forecast response = openMeteoApi.forecast(geoLocation,
-                query -> query.queryParam("hourly", "temperature_2m,weather_code"));
-        return new Forecast(List.of());
+    public WeatherForecast getForecast(GeoLocation geoLocation, ForecastWindow forecastWindow) {
+        return openMeteoApi.forecast(geoLocation, query ->
+                    query.queryParam("hourly", "temperature_2m,weather_code,is_day")
+                        .queryParam("forecast_days", forecastWindow.dayCount())
+                )
+                .hourly();
     }
 
     @Cacheable(value = "currentWeatherCache")
     public CurrentWeather getCurrentWeather(GeoLocation geoLocation) {
-        final OpenMeteoResponse.Forecast response = openMeteoApi.forecast(geoLocation,
-                query -> query.queryParam("current", "temperature_2m,weather_code"));
-        return new CurrentWeather(LocalDateTime.now(), 1, 1);
+        return openMeteoApi.forecast(geoLocation, query ->
+                    query.queryParam("current", "temperature_2m,weather_code,is_day")
+                )
+                .current();
     }
 }

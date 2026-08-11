@@ -42,11 +42,10 @@ public class GeoLocationResolver implements HandlerMethodArgumentResolver {
         GeoLocation geoLocation = null;
         if (lat != null && lon != null) {
             try {
-                geoLocation = geoLocationService.getLocation(Float.parseFloat(lat), Float.parseFloat(lon));
+                geoLocation = geoLocationService.reverseCoords(Float.parseFloat(lat), Float.parseFloat(lon)).location();
             } catch (IllegalStateException _) { }
         }
-        if (geoLocation == null)
-            geoLocation = new GeoLocation("Vilnius", "Senamiestis", 54.6872f, 25.2797f, true);
+        if (geoLocation == null) geoLocation = GeoLocation.DEFAULT;
         return geoLocation;
     }
 }

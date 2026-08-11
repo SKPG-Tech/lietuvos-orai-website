@@ -26,6 +26,7 @@ public class OpenMeteoApi {
                         query.path("/forecast")
                                 .queryParam("latitude", geoLocation.lat())
                                 .queryParam("longitude", geoLocation.lon())
+                                .queryParam("timezone", "auto")
                         ).build()
                 )
                 .retrieve();

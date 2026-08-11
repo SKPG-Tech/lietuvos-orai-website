@@ -1,7 +1,8 @@
 try { 
     Write-Host "Compiling CSS..." -ForegroundColor Cyan
     npm run tailwind:minify
-
+    
+    .\gradlew.bat clean classes
     Write-Host "Compiling production JAR via Gradle..." -ForegroundColor Cyan
     .\gradlew.bat bootJar
 
